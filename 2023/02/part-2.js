@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-const input = fs.readFileSync('input.txt').toString().trim().split('\n');
+const input = fs.readFileSync(__dirname + '/input.txt').toString().trim().split('\n');
 
 const cubeTotals = {
     red: 12,
@@ -11,6 +11,7 @@ const cubeTotals = {
 const gamesSummary = {
     possible: new Set(),
     impossible: new Set(),
+    power: 0,
 }
 
 input.map((game, index) => {
@@ -19,14 +20,26 @@ input.map((game, index) => {
 
     let isImpossible = false;
 
+    const upperBounds = {
+        red: 0,
+        green: 0,
+        blue: 0,
+    };
+
     sets.forEach((set) => {
         const cubes = set.trim().split(',');
 
         cubes.forEach((cube) => {
-            const [count, colour] = cube.trim().split(' ');
+            let [count, colour] = cube.trim().split(' ');
+
+            count = parseInt(count);
 
             if (count > cubeTotals[colour]) {
                 isImpossible = true;
+            }
+
+            if (count > upperBounds[colour]) {
+                upperBounds[colour] = count;
             }
         });
     });
@@ -36,6 +49,9 @@ input.map((game, index) => {
     } else {
         gamesSummary.possible.add(gameId);
     }
+
+    gamesSummary.power += upperBounds.red * upperBounds.green * upperBounds.blue;
 });
 
-console.log([...gamesSummary.possible].reduce((previousValue, currentValue) => previousValue + currentValue, 0));
+console.log('Part 1: Possible games sum:', [...gamesSummary.possible].reduce((previousValue, currentValue) => previousValue + currentValue, 0));
+console.log('Part 2: Power:', gamesSummary.power);
