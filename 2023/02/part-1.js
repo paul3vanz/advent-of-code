@@ -23,8 +23,7 @@ input.map((line, index) => {
         const cubes = set.trim().split(',');
 
         cubes.forEach((cube) => {
-            const count = cube.trim().split(' ')[0];
-            const colour = cube.trim().split(' ')[1];
+            const [count, colour] = cube.trim().split(' ');
 
             if (count > cubeTotals[colour]) {
                 isImpossible = true;
