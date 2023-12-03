@@ -1,8 +1,7 @@
 var fs = require('fs');
 
-const input = fs.readFileSync(__dirname + '/input.txt').toString().trim().split('').filter((character) => character.match(/\S/));
+const input = fs.readFileSync(__dirname + '/input2.txt').toString().trim().split('\r\n');
 
-const lineLength = 10;
 const validNumbers = /[0-9]/;
 const delimeter = '.';
 const symbols = /[^\w\.]/;
@@ -19,56 +18,50 @@ let current = {
     isValid: false,
 };
 
-input.forEach((character, index) => {
-    // Check if number
-    if (character.match(validNumbers)) {
-        if (current.characters === '') {
-            current.position.start = index;
-        }
 
-        current.characters += character;
-    }
+input.forEach((line, lineIndex) => {
+    line.split('').forEach((character, characterIndex) => {
 
-    // Push to array if delimeter hit
-    if (character === delimeter && current.characters.length >= 1) {
-        current.position.end = current.position.start + current.characters.length;
-
-        // Check character boundary
-        const positionsToCheck = [
-            current.position.start - 1,
-            current.position.end,
-            // Previous line
-            ...Array(current.characters.length + 2).fill().map((_, index) => current.position.start - 1 - lineLength + index),
-            // Next line
-            ...Array(current.characters.length + 2).fill().map((_, index) => current.position.start - 1 + lineLength + index),
-        ];
-
-        console.log('current', current);
-        console.log(positionsToCheck);
-
-        if (positionsToCheck.some((checkIndex) => {
-            if (!input[checkIndex]) {
-                return;
+        if (character.match(validNumbers)) {
+            if (current.characters === '') {
+                current.position.start = characterIndex;
             }
 
-            console.log(checkIndex, input[checkIndex]);
-
-            const boundedBySymbol = input[checkIndex].match(symbols) && input[checkIndex] !== delimeter;
-
-            return boundedBySymbol;
-        })) {
-            current.isValid = true;
-            console.log('IS VALID');
+            current.characters += character;
         }
 
-        if (current.isValid) {
-            validPartNumbers.push(parseInt(current.characters));
-        } else {
-            invalidPartNumbers.push(parseInt(current.characters));
+        if ((character === delimeter || character.match(symbols)) && current.characters.length >= 1) {
+            current.position.end = current.position.start + current.characters.length;
+
+            const boundaryCharacters = {
+                previous: line[current.position.start - 1] || '',
+                next: line[current.position.end] || '',
+                above: input[lineIndex - 1]?.substring(current.position.start -1, current.position.end + 1) || '',
+                below: input[lineIndex + 1]?.substring(current.position.start -1, current.position.end + 1) || '',
+            };
+
+            console.log('current', current);
+
+            console.log(boundaryCharacters.above);
+            console.log(`${boundaryCharacters.previous}${current.characters}${boundaryCharacters.next}`);
+            console.log(boundaryCharacters.below);
+
+            const allBoundaryCharacters = Object.values(boundaryCharacters).join('');
+
+            if (allBoundaryCharacters.match(symbols)) {
+                current.isValid = true;
+                console.log('IS VALID');
+            }
+
+            if (current.isValid) {
+                validPartNumbers.push(parseInt(current.characters));
+            } else {
+                invalidPartNumbers.push(parseInt(current.characters));
+            }
+            current.characters = '';
+            current.isValid = false;
         }
-        current.characters = '';
-        current.isValid = false;
-    }
+    });
 });
 
 console.log('valid', validPartNumbers);
