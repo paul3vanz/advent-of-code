@@ -30,7 +30,7 @@ input.forEach((line, lineIndex) => {
             current.characters += character;
         }
 
-        if ((character === delimeter || character.match(symbols)) && current.characters.length >= 1) {
+        if ((character === delimeter || character.match(symbols) || characterIndex === line.length - 1) && current.characters.length >= 1) {
             current.position.end = current.position.start + current.characters.length;
 
             const boundaryCharacters = {
@@ -40,11 +40,11 @@ input.forEach((line, lineIndex) => {
                 below: input[lineIndex + 1]?.substring(current.position.start -1, current.position.end + 1) || '',
             };
 
-            console.log('current', current);
+            // console.log('current', current);
 
-            console.log(boundaryCharacters.above);
-            console.log(`${boundaryCharacters.previous}${current.characters}${boundaryCharacters.next}`);
-            console.log(boundaryCharacters.below);
+            // console.log(boundaryCharacters.above);
+            // console.log(`${boundaryCharacters.previous}${current.characters}${boundaryCharacters.next}`);
+            // console.log(boundaryCharacters.below);
 
             const allBoundaryCharacters = Object.values(boundaryCharacters).join('');
 
