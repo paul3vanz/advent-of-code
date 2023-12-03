@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-const input = fs.readFileSync('input.txt').toString().trim().split('\n');
+const input = fs.readFileSync(__dirname + '/input.txt').toString().trim().split('\n');
 
 const cubeTotals = {
     red: 12,
