@@ -9,7 +9,6 @@ const total = [];
 
 times.forEach((time, index) => {
     const record = records[index];
-
     const options = [];
 
     for (let i = 0; i <= time; i++) {
@@ -20,8 +19,6 @@ times.forEach((time, index) => {
     const winnableOptions = options.filter((option) => option[1] > record).length;
 
     total.push(winnableOptions);
-
-    // console.table(options);
 });
 
 console.table(total);
