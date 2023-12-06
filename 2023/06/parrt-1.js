@@ -2,8 +2,8 @@ var fs = require('fs');
 
 const input = fs.readFileSync(__dirname + '/inputExample.txt').toString().trim().split('\n');
 
-const times = [7, 15, 30]; //input[0];
-const records = [9, 40, 200] //input[1];
+const times = input[0].match(/\d+/g);
+const records = input[1].match(/\d+/g);
 
 const total = [];
 
@@ -19,8 +19,10 @@ times.forEach((time, index) => {
 
     const winnableOptions = options.filter((option) => option[1] > record).length;
 
+    total.push(winnableOptions);
+
     // console.table(options);
-    // console.table(winnableOptions);
 });
 
 console.table(total);
+console.table(total.reduce((previous, current) => previous * current));
