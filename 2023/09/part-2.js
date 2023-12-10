@@ -7,7 +7,7 @@ const input = fs.readFileSync(__dirname + '/input.txt').toString().trim().split(
 const answers = [];
 
 input.forEach((line) => {
-    const sequence = line.split(' ').map((item) => parseInt(item));
+    const sequence = line.split(' ').reverse().map((item) => parseInt(item));
 
     let nextInSequence = 0;
 
