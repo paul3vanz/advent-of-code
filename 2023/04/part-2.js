@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+const start = performance.now();
+
 const parsePattern = /^Card\s+([0-9]+): ([\d|\s]*)\| ([\d|\s]*)$/;
 
 let totalPoints = 0;
@@ -38,7 +40,11 @@ const totalCards = gamesSummary.reduce((previous, current) => {return previous +
 
 gamesSummary.forEach((gameSummary) => totalPoints += gameSummary.points);
 
+const end = performance.now();
+
 console.log('Part 1 - Points:', totalPoints);
 console.log('Part 2 - Scratchcards:', totalCards);
+
+console.log(`Finished in ${(end - start).toFixed(2)}ms`);
 
 // console.table(gamesSummary);

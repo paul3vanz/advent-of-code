@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+const start = performance.now();
+
 const parsePattern = /^Card\s+([0-9]+): ([\d|\s]*)\| ([\d|\s]*)$/;
 
 let totalPoints = 0;
@@ -26,6 +28,10 @@ const gamesSummary = fs.readFileSync(__dirname + '/input.txt').toString().trim()
 
 gamesSummary.forEach((gameSummary) => totalPoints += gameSummary.points);
 
+const end = performance.now();
+
 console.log(totalPoints);
 
-console.table(gamesSummary);
+console.log(`Finished in ${(end - start).toFixed(2)}ms`);
+
+// console.table(gamesSummary);

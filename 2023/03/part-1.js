@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+const start = performance.now();
+
 const input = fs.readFileSync(__dirname + '/input.txt').toString().trim().split('\r\n').map((x) => `.${x}.`);
 
 const validNumbers = /[0-9]/;
@@ -113,6 +115,8 @@ input.forEach((line, lineIndex) => {
     });
 });
 
+const end = performance.now();
+
 console.table(gears);
 
 console.log('gearRatio', Object.values(gears).filter((gear) => gear.length === 2).reduce((previous, current) => previous + (current[0] * current[1]), 0));
@@ -120,3 +124,5 @@ console.log('gearRatio', Object.values(gears).filter((gear) => gear.length === 2
 console.log('valid', validPartNumbers);
 console.log('invalid', invalidPartNumbers);
 console.log('answer', validPartNumbers.reduce((previous, current) => previous + current, 0))
+
+console.log(`Finished in ${(end - start).toFixed(2)}ms`);
