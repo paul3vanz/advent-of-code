@@ -56,5 +56,5 @@ const end = performance.now();
 // console.log(hands);
 // console.log(winnings);
 
-// console.log(`Finished in ${(end - start).toFixed(2)}ms`);
+console.log(`Finished in ${(end - start).toFixed(2)}ms`);
 debugger;
