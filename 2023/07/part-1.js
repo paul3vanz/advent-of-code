@@ -15,8 +15,6 @@ let hands = input.map((line) => {
 
     const cardGroups = hand.split('').sort().join('').match(/(.)\1*/g).sort((a, b) => b.length - a.length);
 
-    // console.log(cardGroups);
-
     if (cardGroups[0].length === 5) {
         rank = 7; // Five of a kind
     } else if (cardGroups[0].length === 4) {
@@ -46,15 +44,13 @@ let hands = input.map((line) => {
 });
 
 const winnings = hands.reverse().reduce((previous, current, index) => {
-    // console.log('hand', (index + 1) * parseInt(current.bid));
-    // console.log(previous, current);
     return previous + ((index + 1) * parseInt(current.bid));
 }, 0)
 
 const end = performance.now();
 
-// console.log(hands);
-// console.log(winnings);
+console.log(hands);
+console.log(winnings);
 
 console.log(`Finished in ${(end - start).toFixed(2)}ms`);
 debugger;
