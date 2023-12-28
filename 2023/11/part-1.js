@@ -7,8 +7,10 @@ const rows = fs.readFileSync(__dirname + '/inputExample.txt').toString().trim().
 const rowWidth = rows[0].length;
 
 // Expand rows
+const emptyRows = rows.map((row) => row.indexOf('#') === -1);
 
 // Expand columns
+const emptyColumns = new Array(rowWidth).fill('').map((_, index) => rows.every((row) => row[index] === '.'));
 
 // Plot galaxies in object
 
